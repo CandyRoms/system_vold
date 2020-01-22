@@ -169,9 +169,7 @@ std::shared_ptr<VolumeBase> VolumeBase::findVolume(const std::string& id) {
 }
 
 status_t VolumeBase::create() {
-    if (mCreated) {
-        return BAD_VALUE;
-    }
+    CHECK(!mCreated);
 
     mCreated = true;
     status_t res = doCreate();
@@ -190,9 +188,7 @@ status_t VolumeBase::doCreate() {
 }
 
 status_t VolumeBase::destroy() {
-    if (!mCreated) {
-        return NO_INIT;
-    }
+    CHECK(mCreated);
 
     if (mState == State::kMounted) {
         unmount();
